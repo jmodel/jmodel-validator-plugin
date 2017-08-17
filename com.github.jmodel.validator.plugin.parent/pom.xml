@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.jmodel</groupId>
+	<artifactId>com.github.jmodel.validator.plugin.parent</artifactId>
+	<version>0.0.2</version>
+	<packaging>pom</packaging>
+
+	<name>jmodel-validator plugin Parent</name>
+
+	<modules>
+		<module>../com.github.jmodel.validator.plugin</module>
+		<module>../com.github.jmodel.validator.plugin.ide</module>
+		<module>../com.github.jmodel.validator.plugin.sdk</module>
+		<module>../com.github.jmodel.validator.plugin.ui</module>
+		<module>../com.github.jmodel.validator.plugin.updatesite</module>
+	</modules>
+  
+	<url>https://github.com/jmodel/jmodel-validator-plugin</url>
+	<description>A validator tool</description>
+	<scm>
+		<url>https://github.com/jmodel/jmodel-validator-plugin.git</url>
+		<connection>scm:git:git@github.com:jmodel/jmodel-validator-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:jmodel/jmodel-validator-plugin.git</developerConnection>
+	</scm>
+
+	<properties>
+		<tycho-version>0.26.0</tycho-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<xtext.version>2.12.0</xtext.version>
+		<junit.version>4.12</junit.version>
+		<jdk.version>1.8</jdk.version>
+		<jackson.version>2.6.1</jackson.version>
+		<org.apache.commons.version>3.4</org.apache.commons.version>
+		<maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+		<maven.source.plugin.version>3.0.1</maven.source.plugin.version>
+		<maven.clean.plugin.version>2.5</maven.clean.plugin.version>
+		<maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>eclipse</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/oxygen/</url>
+		</repository>
+		<repository>
+			<id>Xtext Update Site</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/releases/${xtext.version}/</url>
+		</repository>
+	</repositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${org.apache.commons.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		
+		<pluginManagement>
+			
+			<plugins>
+				
+				<!-- xtend-maven-plugin is in pluginManagement instead of in plugins 
+					so that it doesn't run before the exec-maven-plugin's *.mwe2 gen; this way 
+					we can list it after. -->
+				<plugin>
+					<groupId>org.eclipse.xtend</groupId>
+					<artifactId>xtend-maven-plugin</artifactId>
+					<version>${xtext.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>compile</goal>
+								<goal>xtend-install-debug-info</goal>
+								<goal>testCompile</goal>
+								<goal>xtend-test-install-debug-info</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<outputDirectory>xtend-gen</outputDirectory>
+					</configuration>
+				</plugin>
+			
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.5</version>
+					<executions>
+						<execution>
+							<id>gen-clean</id>
+							<goals>
+								<goal>clean</goal>
+							</goals>
+							<configuration>
+								<filesets>
+									<fileset>
+										<directory>${basedir}/xtend-gen</directory>
+									</fileset>
+								</filesets>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				
+			</plugins>
+			
+		</pluginManagement>
+
+		<plugins>
+			
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			
+		</plugins>
+	
+	</build>
+
+
+</project>
