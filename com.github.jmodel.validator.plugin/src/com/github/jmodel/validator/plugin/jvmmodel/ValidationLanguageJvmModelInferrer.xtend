@@ -23,6 +23,11 @@ import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
  */
 class ValidationLanguageJvmModelInferrer extends AbstractModelInferrer {
 
+	val _VALIDATION = "com.github.jmodel.validator.api.domain.Validation"
+	val _VALIDATION_RESULT = "com.github.jmodel.validator.Result"
+	val _MODEL = "com.github.jmodel.api.domain.Model"
+	val _MODEL_EXCEPTION = "com.github.jmodel.ModelException"
+
 	/**
 	 * convenience API to build and initialize JVM types and their members.
 	 */
@@ -54,11 +59,6 @@ class ValidationLanguageJvmModelInferrer extends AbstractModelInferrer {
 	 *            <code>true</code>.
 	 */
 	def dispatch void infer(Validation element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-
-		val _VALIDATION = "com.github.jmodel.validator.api.domain.Validation"
-		val _VALIDATION_RESULT = "com.github.jmodel.validator.Result"
-		val _MODEL = "com.github.jmodel.api.domain.Model"
-		val _MODEL_EXCEPTION = "com.github.jmodel.ModelException"
 
 		acceptor.accept(element.toClass(element.name)) [
 
@@ -121,11 +121,11 @@ class ValidationLanguageJvmModelInferrer extends AbstractModelInferrer {
 
 	def genCommonSetting(Validation element) '''
 		«IF element.source.name.literal== 'JSON'»								
-			myInstance.setFormat(com.github.jmodel.api.format.FormatEnum.JSON);														
+			myInstance.setFormat(com.github.jmodel.FormatEnum.JSON);														
 		«ELSEIF element.source.name.literal== 'XML'» 
-			myInstance.setFormat(com.github.jmodel.api.format.FormatEnum.XML);	
+			myInstance.setFormat(com.github.jmodel.FormatEnum.XML);	
 		«ELSEIF element.source.name.literal== 'BEAN'» 
-			myInstance.setFormat(com.github.jmodel.api.format.FormatEnum.BEAN);	
+			myInstance.setFormat(com.github.jmodel.FormatEnum.BEAN);	
 		«ENDIF»
 		
 		com.github.jmodel.api.domain.Entity rootModel = new com.github.jmodel.api.domain.Entity();
