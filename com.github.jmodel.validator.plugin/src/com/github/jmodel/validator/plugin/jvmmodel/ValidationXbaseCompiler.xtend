@@ -204,13 +204,13 @@ class ValidationXbaseCompiler extends XbaseCompiler {
 			SingleFieldPath: {
 				var String fieldValue = null;
 				if (Util.isInPrecondition(expr)) {
-					fieldValue = '''com.github.jmodel.api.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get("«expr.content»"))'''
+					fieldValue = '''com.github.jmodel.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get("«expr.content»"))'''
 				} else {
 					val fullModelPath = Util.getFullModelPath(expr)
 					if (Util.isArrayPath(expr)) {
 						if (Util.isInFilter(expr)) {
 							val f = getName(fullModelPath + "_f")
-							fieldValue = '''com.github.jmodel.api.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get(«f» + ".«expr.content»"))'''
+							fieldValue = '''com.github.jmodel.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get(«f» + ".«expr.content»"))'''
 						} else {
 							var String m = null
 							if (expr.absolutePath !== null) {
@@ -219,11 +219,11 @@ class ValidationXbaseCompiler extends XbaseCompiler {
 							} else {
 								m = getName(fullModelPath + "_m")
 							}
-							fieldValue = '''com.github.jmodel.api.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get(«m» + ".«expr.content»"))'''
+							fieldValue = '''com.github.jmodel.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get(«m» + ".«expr.content»"))'''
 						}
 
 					} else {
-						fieldValue = '''com.github.jmodel.api.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get("«fullModelPath».«expr.content»"))'''
+						fieldValue = '''com.github.jmodel.utils.ModelHelper.getFieldValue(model.getFieldPathMap().get("«fullModelPath».«expr.content»"))'''
 					}
 				}
 				
@@ -232,9 +232,9 @@ class ValidationXbaseCompiler extends XbaseCompiler {
 					}
 					case DATE: {
 						if(expr.pattern !== null) {
-							append('''com.github.jmodel.api.utils.ModelHelper.getDate(«fieldValue», "«expr.pattern»")''')
+							append('''com.github.jmodel.utils.ModelHelper.getDate(«fieldValue», "«expr.pattern»")''')
 						}else {
-							append('''com.github.jmodel.api.utils.ModelHelper.getDate(«fieldValue»)''')
+							append('''com.github.jmodel.utils.ModelHelper.getDate(«fieldValue»)''')
 						}
 					}
 					case DEC: {
@@ -261,9 +261,9 @@ class ValidationXbaseCompiler extends XbaseCompiler {
 					}
 					case DATE: {
 						if(expr.pattern !== null) {
-							append('''com.github.jmodel.api.utils.ModelHelper.getDate(String.valueOf(«variableValue»), "«expr.pattern»")''')
+							append('''com.github.jmodel.utils.ModelHelper.getDate(String.valueOf(«variableValue»), "«expr.pattern»")''')
 						}else {
-							append('''com.github.jmodel.api.utils.ModelHelper.getDate(String.valueOf(«variableValue»))''')
+							append('''com.github.jmodel.utils.ModelHelper.getDate(String.valueOf(«variableValue»))''')
 						}
 					}
 					case DEC: {
@@ -288,9 +288,9 @@ class ValidationXbaseCompiler extends XbaseCompiler {
 			XBinaryOperation: {
 				val operation = expr.getConcreteSyntaxFeatureName()
 				if (Util.isPredict(operation)) {
-					append('''(com.github.jmodel.api.utils.ModelHelper.predict(''')
+					append('''(com.github.jmodel.utils.ModelHelper.predict(''')
 				} else {
-					append('''(com.github.jmodel.api.utils.ModelHelper.calc(''')
+					append('''(com.github.jmodel.utils.ModelHelper.calc(''')
 				}
 				doInternalToJavaStatement(expr.leftOperand, it, isReferenced)
 				append(''',''')

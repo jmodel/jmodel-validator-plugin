@@ -25,7 +25,7 @@ class ValidationLanguageJvmModelInferrer extends AbstractModelInferrer {
 
 	val _VALIDATION = "com.github.jmodel.validator.api.domain.Validation"
 	val _VALIDATION_RESULT = "com.github.jmodel.validator.Result"
-	val _MODEL = "com.github.jmodel.api.domain.Model"
+	val _MODEL = "com.github.jmodel.api.entity.Model"
 	val _MODEL_EXCEPTION = "com.github.jmodel.ModelException"
 
 	/**
@@ -128,7 +128,7 @@ class ValidationLanguageJvmModelInferrer extends AbstractModelInferrer {
 			myInstance.setFormat(com.github.jmodel.FormatEnum.BEAN);	
 		«ENDIF»
 		
-		com.github.jmodel.api.domain.Entity rootModel = new com.github.jmodel.api.domain.Entity();
+		com.github.jmodel.api.entity.Entity rootModel = new com.github.jmodel.api.entity.Entity();
 		myInstance.setTemplateModel(rootModel);
 		
 		«FOR service : element.eAllContents.toIterable.filter(typeof(Service))»
